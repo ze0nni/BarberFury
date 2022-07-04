@@ -10,25 +10,30 @@ namespace Arena
                 public readonly ArenaStage Stage = new ArenaStage();
 
                 private readonly Camera _camera;
-
-                public ArenaMediator(Camera camera, ModelComponent model) {
-                        _camera = camera;
-                        Model = model;
-                }
-
+                private readonly IArenaScript _script;                
+                
                 private Identity<Unit> _playerId;
 
-                public void Update(float dt) {
-                        UpdatePlayerInput();
-                        ApplyUnitsInput();
+                public ArenaMediator(Camera camera, ModelComponent model, IArenaScript script) {
+                        _camera = camera;
+                        _script = script;
+
+                        Model = model;
+                        Init();
+                        _script.Init(this);
                 }
 
-                public void FixedUpdate(float dt) {
-                        Physics.Simulate(dt);
-                }
-                
                 public Identity<T> NewIdentity<T>() {
                         return new Identity<T>(++Stage.IdentityCounter);
+                }
+
+                public void Update(float dt) {
+                        UpdatePlayerInput();   
+                        UpdateUnits(dt);                     
+
+                        _script.Update(dt);
+
+                        UpdatePlayerCamera();
                 }
         }
 }

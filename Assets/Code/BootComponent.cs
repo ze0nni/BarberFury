@@ -10,18 +10,13 @@ public class BootComponent : MonoBehaviour {
         private ArenaMediator _arena;
 
         private void OnEnable() {
+                Cursor.lockState = CursorLockMode.Locked;
                 Physics.autoSimulation = false;
                 
-                _arena = new ArenaMediator(_camera, _model);
-                var playerId = _arena.SpawnUnit(TeamId.Team1);
-                _arena.SetPlayer(playerId);
+                _arena = new ArenaMediator(_camera, _model, new ArenaScripts.TestPolygone());                
         }
 
         private void Update() {
                 _arena.Update(Time.deltaTime);
-        }
-
-        private void FixedUpdate() {
-                _arena.FixedUpdate(Time.fixedDeltaTime);
         }
 }

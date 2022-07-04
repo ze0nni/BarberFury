@@ -4,8 +4,7 @@ using UnityEngine;
 namespace Arena.Components {        
         public class SpawnPointComponent : MonoBehaviour {
 
-                public TeamId TeamId;
-                public bool IsPlayer;
+                public TeamId TeamId;                
 
                 private void OnDrawGizmos() {
                         Color color;
