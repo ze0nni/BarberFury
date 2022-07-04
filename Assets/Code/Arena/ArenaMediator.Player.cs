@@ -19,6 +19,8 @@ namespace Arena
                                 MoveBack = Input.GetKey(KeyCode.S),
                                 ShiftLeft = Input.GetKey(KeyCode.A),
                                 ShiftRight = Input.GetKey(KeyCode.D),
+                                PickLeft = Input.GetKeyDown(KeyCode.Q),
+                                PickRight = Input.GetKeyDown(KeyCode.E),
                                 Yaw = Input.GetAxis("Mouse X") * 2,
                                 Pitch = -Input.GetAxis("Mouse Y") * 2
                         };
@@ -28,8 +30,18 @@ namespace Arena
                         if (!Stage.Units.TryGetValue(_playerId, out var player)) {
                                 return;
                         }
-                        _camera.transform.position = player.Position + Vector3.up * 1.5f;
+                        _camera.transform.position = player.CameraPosition;
                         _camera.transform.rotation = player.Rotation;
+                }
+
+                
+                void UpdatePlayerHud() {
+                        if (!Stage.Units.TryGetValue(_playerId, out var player)) {
+                                return;
+                        }
+                        var interact = GetUnitInteract(player);
+
+                        UpdateWeaponsHud(interact.WeaponId);
                 }
         }
 }

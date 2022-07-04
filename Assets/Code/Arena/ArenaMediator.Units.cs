@@ -7,8 +7,7 @@ namespace Arena {
                         var id = NewIdentity<Unit>();
 
                         var unit = new Unit(id) {
-                                Team = team,
-                                Position = position
+                                Team = team
                         };
 
                         var view = Model.InstantiateUnit(position);
@@ -26,6 +25,39 @@ namespace Arena {
                 }
 
                 private void UpdateUnit(float dt, Unit unit) {                        
+                        ApplyUnitMovementInput(dt, unit);
+                        InvalidateUnitWeapon(unit, unit.Input.PickLeft, ref unit.LeftHand);
+                        InvalidateUnitWeapon(unit, unit.Input.PickRight, ref unit.RightHand);
+                }
+
+                private void InvalidateUnitWeapon(Unit unit, bool pick, ref Identity<Weapon> id) {
+                        if (Stage.Weapons.TryGetValue(id, out var currentWeapon)) {
+                                currentWeapon.Picker = unit.Id;
+                        } else {
+                                id = Identity<Weapon>.Null;
+                        }
+
+                        if (!pick) {
+                                return;
+                        }
+                        var interact = GetUnitInteract(unit);
+
+                        if (currentWeapon != null) {
+                                id = Identity<Weapon>.Null;                                
+                                currentWeapon.Picker = Identity<Unit>.Null;
+                                currentWeapon.Position = unit.CameraPosition + unit.Yaw * Vector3.forward;
+                        }
+
+                        if (interact.WeaponId.IsNull) {
+                                return;
+                        }
+
+                        currentWeapon = Stage.Weapons[interact.WeaponId];
+                        currentWeapon.Picker = unit.Id;
+                        id = interact.WeaponId;
+                }
+
+                private void ApplyUnitMovementInput(float dt, Unit unit) {
                         var view = unit.View;
                         var controller = view.Controller;
                         ref var input = ref unit.Input;
@@ -49,17 +81,52 @@ namespace Arena {
                                 moveDirection += unit.Yaw * Vector3.right;
                         }
 
-                        view.transform.position = unit.Position;
                         view.transform.rotation = unit.Yaw;
-                        
                         if (moveDirection.sqrMagnitude > 0) {
                                 controller.Move(moveDirection.normalized * 5 * dt);
                         }
                         if (!controller.isGrounded) {
                                 controller.Move(Vector3.down * 9.8f * dt);
                         }
+                }
 
-                        unit.Position = view.transform.position;
+                public UnitInteract GetUnitInteract(Unit unit) {
+                        var result = new UnitInteract();
+
+                        var position = unit.CameraPosition;
+                        var forward = unit.Rotation * Vector3.forward;
+
+                        foreach (var weapon in Stage.Weapons.Values) {
+                                if (!weapon.Picker.IsNull) {
+                                        continue;
+                                }                                
+                                if (!GetUnitCanInteractWith(position, forward, weapon.Position, out var angle)) {
+                                        continue;
+                                }
+                                if (result.Type == UnitInteract.Target.None || angle < result.Angle) {
+                                        result = new UnitInteract {
+                                                Type = UnitInteract.Target.Weapon,
+                                                WeaponId = weapon.Id
+                                        };
+                                }
+                        }
+
+                        return result;
+                }
+
+                public bool GetUnitCanInteractWith(Vector3 unit, Vector3 forward, Vector3 target, out float angle) {
+                        var horizontalDistance = Vector3.Distance(
+                                new Vector3(unit.x, 0, unit.z),
+                                new Vector3(target.x, 0, target.z)
+                        );
+                        if (horizontalDistance > 1.3f) {
+                                angle = default;
+                                return false;
+                        }
+
+                        angle = Vector3.Angle(target - unit, forward);
+
+                        return angle < 30;
                 }
         }       
 }

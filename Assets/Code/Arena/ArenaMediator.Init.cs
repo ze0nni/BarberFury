@@ -11,7 +11,7 @@ namespace Arena
                         }
 
                         foreach (var weapon in GameObject.FindObjectsOfType<WeaponComponent>()) {
-
+                                SpawnWeapon(weapon.transform.position);
                         }
                 }
         }

@@ -19,4 +19,8 @@ public class BootComponent : MonoBehaviour {
         private void Update() {
                 _arena.Update(Time.deltaTime);
         }
+
+        private void FixedUpdate() {
+                _arena.FixedUpdate(Time.fixedDeltaTime);
+        }
 }

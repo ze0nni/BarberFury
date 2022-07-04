@@ -29,11 +29,17 @@ namespace Arena
 
                 public void Update(float dt) {
                         UpdatePlayerInput();   
-                        UpdateUnits(dt);                     
+                        UpdateUnits(dt);
+                        UpdateWeapons(dt);
 
                         _script.Update(dt);
 
+                        UpdatePlayerHud();
                         UpdatePlayerCamera();
+                }
+
+                public void FixedUpdate(float dt) {
+                        Physics.Simulate(dt);
                 }
         }
 }

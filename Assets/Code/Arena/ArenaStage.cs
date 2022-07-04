@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using Common;
 using Arena.View;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace Arena {
                 public readonly System.Random Random = new System.Random();
                 public readonly Dictionary<Identity<SpawnPoint>, SpawnPoint> SpawnPoints = new Dictionary<Identity<SpawnPoint>, SpawnPoint>();
                 public readonly Dictionary<Identity<Unit>, Unit> Units = new Dictionary<Identity<Unit>, Unit>();
+                public readonly Dictionary<Identity<Weapon>, Weapon> Weapons = new Dictionary<Identity<Weapon>, Weapon>();
         }
 
         public enum TeamId {
@@ -35,18 +37,28 @@ namespace Arena {
 
                 public TeamId Team;
 
-                public Vector3 Position;
+                public Vector3 Position {
+                        get => View.transform.position;
+                        set => View.transform.position = value;
+                }
+
                 public float YawValue;
                 public Quaternion Yaw => Quaternion.Euler(0, YawValue, 0);
                 public float PitchValue;
                 public Quaternion Pitch => Quaternion.Euler(PitchValue, 0, 0);
                 public Quaternion Rotation => Yaw * Pitch;
 
+                public Vector3 CameraPosition => Position + Vector3.up * 1.5f;
+
                 public float Health;
                 public bool IsAlive => Health > 0;
                         
                 public float WetFactor;
                 public float BurnFactor;
+
+                public Identity<Weapon> LeftHand;
+                public Identity<Weapon> RightHand;
+
                 public UnitView View;
                 public Unit(Identity<Unit> id) {
                         Id = id;
@@ -58,11 +70,32 @@ namespace Arena {
                 public bool MoveBack;
                 public bool ShiftLeft;
                 public bool ShiftRight;
+                public bool PickLeft;
+                public bool PickRight;
                 public float Yaw;
-                public float Pitch;
+                public float Pitch;                
+        }
+
+        public struct UnitInteract {
+                public enum Target { None, Weapon }                
+                public Target Type;
+                public float Angle;
+                public Identity<Weapon> WeaponId;
         }
 
         public class Weapon {
                 public readonly Identity<Weapon> Id;
+                public Vector3 Position {
+                        get => View.transform.position;
+                        set => View.transform.position = value;
+                }
+
+                public Identity<Unit> Picker;
+
+                public WeaponView View;
+
+                public Weapon(Identity<Weapon> id) {
+                        Id = id;
+                }
         }
 }
