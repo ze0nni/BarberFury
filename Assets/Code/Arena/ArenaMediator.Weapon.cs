@@ -18,17 +18,22 @@ namespace Arena {
                         return weapon;
                 }
 
-                private void UpdateWeapons(float dt) {
-                        foreach (var weapon in Stage.Weapons.Values) {
-                                weapon.View.gameObject.SetActive(weapon.Picker.IsNull);
-                        }
-                }
+                void UpdateWeapons(float dt) {
+                        Stage.Units.TryGetValue(_playerId, out var player);
 
-                private void UpdateWeaponsHud(Identity<Weapon> interactId) {
                         foreach (var weapon in Stage.Weapons.Values) {
-                                var view = weapon.View;
-                                view.InteractRoot.SetActive(interactId == weapon.Id);
+                                Stage.Units.TryGetValue(weapon.Picker, out var picker);
+                                
+                                weapon.View.Rigidbody.isKinematic = picker != null;
+                                weapon.View.InteractRoot.SetActive(weapon.Picker.IsNull && player?.Interact.WeaponId == weapon.Id);
+
+                                if (picker != null) {
+                                        weapon.Position = picker.LeftHand == weapon.Id
+                                                ? picker.LeftHandPosition
+                                                : picker.RightHandPosition;
+                                        weapon.Rotation = picker.Rotation;
+                                }
                         }
-                }
+                }                
         }       
 }

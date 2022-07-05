@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using Common;
 using Arena.View;
 using System.Collections.Generic;
@@ -48,6 +47,8 @@ namespace Arena {
                 public Quaternion Rotation => Yaw * Pitch;
 
                 public Vector3 CameraPosition => Position + Vector3.up * 1.5f;
+                public Vector3 LeftHandPosition => CameraPosition + Rotation * new Vector3(-0.35f, -0.25f, 0.5f);
+                public Vector3 RightHandPosition => CameraPosition + Rotation * new Vector3(0.35f, -0.25f, 0.5f);
 
                 public UnitInteract Interact;
 
@@ -86,6 +87,11 @@ namespace Arena {
                 public Vector3 Position {
                         get => View.transform.position;
                         set => View.transform.position = value;
+                }
+
+                public Quaternion Rotation {
+                        get => View.transform.rotation;
+                        set => View.transform.rotation = value;
                 }
 
                 public Identity<Unit> Picker;

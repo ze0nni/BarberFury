@@ -33,8 +33,7 @@ namespace Arena
                         UpdateWeapons(dt);
 
                         _script.Update(dt);
-
-                        UpdatePlayerHud();
+                        
                         UpdatePlayerCamera();
                 }
 

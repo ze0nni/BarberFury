@@ -33,13 +33,5 @@ namespace Arena
                         _camera.transform.position = player.CameraPosition;
                         _camera.transform.rotation = player.Rotation;
                 }
-
-                
-                void UpdatePlayerHud() {
-                        if (!Stage.Units.TryGetValue(_playerId, out var player)) {
-                                return;
-                        }
-                        UpdateWeaponsHud(player.Interact.WeaponId);
-                }
         }
 }
