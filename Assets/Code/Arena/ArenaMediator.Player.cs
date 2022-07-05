@@ -39,9 +39,7 @@ namespace Arena
                         if (!Stage.Units.TryGetValue(_playerId, out var player)) {
                                 return;
                         }
-                        var interact = GetUnitInteract(player);
-
-                        UpdateWeaponsHud(interact.WeaponId);
+                        UpdateWeaponsHud(player.Interact.WeaponId);
                 }
         }
 }

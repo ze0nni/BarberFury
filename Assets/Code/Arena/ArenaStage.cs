@@ -41,7 +41,6 @@ namespace Arena {
                         get => View.transform.position;
                         set => View.transform.position = value;
                 }
-
                 public float YawValue;
                 public Quaternion Yaw => Quaternion.Euler(0, YawValue, 0);
                 public float PitchValue;
@@ -50,11 +49,10 @@ namespace Arena {
 
                 public Vector3 CameraPosition => Position + Vector3.up * 1.5f;
 
+                public UnitInteract Interact;
+
                 public float Health;
                 public bool IsAlive => Health > 0;
-                        
-                public float WetFactor;
-                public float BurnFactor;
 
                 public Identity<Weapon> LeftHand;
                 public Identity<Weapon> RightHand;

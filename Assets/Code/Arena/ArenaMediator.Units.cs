@@ -20,6 +20,9 @@ namespace Arena {
 
                 private void UpdateUnits(float dt) {
                         foreach (var u in Stage.Units.Values) {
+                                UpdateUnitInteract(u);
+                        }
+                        foreach (var u in Stage.Units.Values) {
                                 UpdateUnit(dt, u);
                         }
                 }
@@ -40,21 +43,23 @@ namespace Arena {
                         if (!pick) {
                                 return;
                         }
-                        var interact = GetUnitInteract(unit);
-
                         if (currentWeapon != null) {
                                 id = Identity<Weapon>.Null;                                
                                 currentWeapon.Picker = Identity<Unit>.Null;
-                                currentWeapon.Position = unit.CameraPosition + unit.Yaw * Vector3.forward;
+                                currentWeapon.Position = unit.CameraPosition + unit.Yaw * Vector3.forward * 0.5f;
                         }
 
-                        if (interact.WeaponId.IsNull) {
+                        if (unit.Interact.WeaponId.IsNull) {
                                 return;
                         }
 
-                        currentWeapon = Stage.Weapons[interact.WeaponId];
+                        currentWeapon = Stage.Weapons[unit.Interact.WeaponId];
+                        if (!currentWeapon.Picker.IsNull) {
+                                return;
+                        }
+
                         currentWeapon.Picker = unit.Id;
-                        id = interact.WeaponId;
+                        id = unit.Interact.WeaponId;
                 }
 
                 private void ApplyUnitMovementInput(float dt, Unit unit) {
@@ -90,8 +95,9 @@ namespace Arena {
                         }
                 }
 
-                public UnitInteract GetUnitInteract(Unit unit) {
-                        var result = new UnitInteract();
+                public void UpdateUnitInteract(Unit unit) {
+                        ref var result = ref unit.Interact;
+                        result = new UnitInteract();
 
                         var position = unit.CameraPosition;
                         var forward = unit.Rotation * Vector3.forward;
@@ -110,8 +116,6 @@ namespace Arena {
                                         };
                                 }
                         }
-
-                        return result;
                 }
 
                 public bool GetUnitCanInteractWith(Vector3 unit, Vector3 forward, Vector3 target, out float angle) {
