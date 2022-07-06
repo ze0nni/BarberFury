@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Common {
         public class BillboardComponent : MonoBehaviour {
-                private void Update() {
+                void Update() {
                         var camera = Camera.main;
                         if (camera == null) {
                                 return;

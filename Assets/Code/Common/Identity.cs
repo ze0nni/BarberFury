@@ -5,7 +5,7 @@ namespace Common {
         {
                 public static Identity<T> Null => new Identity<T>();
 
-                private readonly int _value;
+                readonly int _value;
 
                 public Identity(int value) {
                         _value = value;

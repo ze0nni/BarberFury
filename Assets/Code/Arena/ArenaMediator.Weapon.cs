@@ -1,16 +1,17 @@
 using Common;
+using Model;
 using UnityEngine;
 
 namespace Arena {
         public sealed partial class ArenaMediator {
-                public Weapon SpawnWeapon(Vector3 position) {
+                public Weapon SpawnWeapon(Vector3 position, WeaponModel model) {
                         var id = NewIdentity<Weapon>();
 
                         var weapon = new Weapon(id) {
                                 
                         };
                         
-                        var view = Model.InstantiateWeapon(position);
+                        var view = Model.InstantiateWeapon(position, model, weapon);
                         weapon.View = view;
 
                         Stage.Weapons.Add(id, weapon);
@@ -28,11 +29,23 @@ namespace Arena {
                                 weapon.View.InteractRoot.SetActive(weapon.Picker.IsNull && player?.Interact.WeaponId == weapon.Id);
 
                                 if (picker != null) {
-                                        weapon.Position = picker.LeftHand == weapon.Id
+                                        var position = picker.LeftHand == weapon.Id
                                                 ? picker.LeftHandPosition
                                                 : picker.RightHandPosition;
-                                        weapon.Rotation = picker.Rotation;
+                                        var rotation = Quaternion.LookRotation(
+                                                picker.CrosshairTarget.Position - position,
+                                                picker.Rotation * Vector3.up);
+                                        
+                                        weapon.Position = position;
+                                        weapon.Rotation = rotation;
                                 }
+
+                                if (weapon.InputFire) {
+                                        weapon.InputFire = false;
+                                        weapon.View.Model.Fire(this);
+                                }
+
+                                weapon.View.Model.Update(this);
                         }
                 }                
         }       

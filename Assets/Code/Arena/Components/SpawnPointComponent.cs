@@ -6,7 +6,7 @@ namespace Arena.Components {
 
                 public TeamId TeamId;                
 
-                private void OnDrawGizmos() {
+                void OnDrawGizmos() {
                         Color color;
                         switch (TeamId) {
                                 case TeamId.Team1:

@@ -18,11 +18,13 @@ namespace Arena
                                 MoveForward = Input.GetKey(KeyCode.W),
                                 MoveBack = Input.GetKey(KeyCode.S),
                                 ShiftLeft = Input.GetKey(KeyCode.A),
-                                ShiftRight = Input.GetKey(KeyCode.D),
-                                PickLeft = Input.GetKeyDown(KeyCode.Q),
-                                PickRight = Input.GetKeyDown(KeyCode.E),
+                                ShiftRight = Input.GetKey(KeyCode.D),                                                              
                                 Yaw = Input.GetAxis("Mouse X") * 2,
-                                Pitch = -Input.GetAxis("Mouse Y") * 2
+                                Pitch = -Input.GetAxis("Mouse Y") * 2,
+                                PickRight = Input.GetKeyDown(KeyCode.E),
+                                PickLeft = Input.GetKeyDown(KeyCode.Q),
+                                FireLeft = Input.GetMouseButton(0),
+                                FireRight = Input.GetMouseButton(1),
                         };
                 }
 

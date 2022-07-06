@@ -5,8 +5,8 @@ using Common;
 namespace ArenaScripts {
         public sealed class TestPolygone : IArenaScript
         {
-                private ArenaMediator _mediator;
-                private Dictionary<Identity<SpawnPoint>, Identity<Unit>> _team2 = new Dictionary<Identity<SpawnPoint>, Identity<Unit>>();
+                ArenaMediator _mediator;
+                Dictionary<Identity<SpawnPoint>, Identity<Unit>> _team2 = new Dictionary<Identity<SpawnPoint>, Identity<Unit>>();
 
                 public void Init(ArenaMediator mediator)
                 {
@@ -24,10 +24,10 @@ namespace ArenaScripts {
                         
                 }
 
-                private void ResetTeam2() {
+                void ResetTeam2() {
                         foreach (var p in _mediator.Stage.SpawnPoints.Values) {
                                 if (p.TeamId != TeamId.Team2) {
-                                        return;
+                                        continue;
                                 }
                                 _team2.TryGetValue(p.Id, out var unitId);
 

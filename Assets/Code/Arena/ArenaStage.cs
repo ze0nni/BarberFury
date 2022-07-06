@@ -55,6 +55,7 @@ namespace Arena {
                 public float Health;
                 public bool IsAlive => Health > 0;
 
+                public CrosshairTarget CrosshairTarget;
                 public Identity<Weapon> LeftHand;
                 public Identity<Weapon> RightHand;
 
@@ -62,17 +63,25 @@ namespace Arena {
                 public Unit(Identity<Unit> id) {
                         Id = id;
                 }
+                
+                public bool Raycast(Ray ray, float maxDistance, out RaycastHit hit) {
+                        return View.Collider.Raycast(ray, out hit, maxDistance);
+                }
         }
 
         public struct UnitInput {
                 public bool MoveForward;
                 public bool MoveBack;
                 public bool ShiftLeft;
-                public bool ShiftRight;
+                public bool ShiftRight;                
+                
+                public float Yaw;
+                public float Pitch;
+
                 public bool PickLeft;
                 public bool PickRight;
-                public float Yaw;
-                public float Pitch;                
+                public bool FireLeft;
+                public bool FireRight;
         }
 
         public struct UnitInteract {
@@ -80,6 +89,14 @@ namespace Arena {
                 public Target Type;
                 public float Angle;
                 public Identity<Weapon> WeaponId;
+        }
+
+        public struct CrosshairTarget {
+                public enum Target { None, Static, Unit }
+                public Target Type;
+                public Vector3 Position;
+                public float Distance;
+                public Identity<Unit> UnitId;
         }
 
         public class Weapon {
@@ -95,11 +112,17 @@ namespace Arena {
                 }
 
                 public Identity<Unit> Picker;
+                public bool InputFire;
 
                 public WeaponView View;
 
                 public Weapon(Identity<Weapon> id) {
                         Id = id;
                 }
+        }
+
+        public class Projectile {
+                public readonly Identity<Projectile> Id;
+                public readonly Identity<Weapon> WeaponId;
         }
 }

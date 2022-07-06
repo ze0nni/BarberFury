@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Arena {
         public sealed partial class ArenaMediator {
-                private readonly List<SpawnPoint> _tempSpawnPoints = new List<SpawnPoint>();
+                readonly List<SpawnPoint> _tempSpawnPoints = new List<SpawnPoint>();
                 public SpawnPoint SelectSpawnPoint(Func<SpawnPoint, bool> predicate) {
                         _tempSpawnPoints.Clear();
                         foreach (var p in Stage.SpawnPoints.Values) {

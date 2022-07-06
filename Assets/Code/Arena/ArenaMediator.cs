@@ -9,10 +9,10 @@ namespace Arena
                 public readonly ModelComponent Model;
                 public readonly ArenaStage Stage = new ArenaStage();
 
-                private readonly Camera _camera;
-                private readonly IArenaScript _script;                
+                readonly Camera _camera;
+                readonly IArenaScript _script;                
                 
-                private Identity<Unit> _playerId;
+                Identity<Unit> _playerId;
 
                 public ArenaMediator(Camera camera, ModelComponent model, IArenaScript script) {
                         _camera = camera;
