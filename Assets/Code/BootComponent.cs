@@ -17,7 +17,12 @@ public class BootComponent : MonoBehaviour {
         }
 
         void Update() {
-                _arena.Update(Time.deltaTime);
+                _arena.Update(Time.deltaTime);                
+#if !UNITY_EDITOR
+                if (Input.GetKeyDown(KeyCode.Escape)) {
+                        Application.Quit();
+                }
+#endif
         }
 
         void FixedUpdate() {
