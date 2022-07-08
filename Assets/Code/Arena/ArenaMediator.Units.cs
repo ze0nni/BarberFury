@@ -1,13 +1,15 @@
+using System.Collections.Generic;
 using Common;
 using UnityEngine;
 
 namespace Arena {
         public sealed partial class ArenaMediator {
-                public Unit SpawnUnit(TeamId team, Vector3 position) {
+                public Unit SpawnUnit(TeamId team, Vector3 position, float startHealth) {
                         var id = NewIdentity<Unit>();
 
                         var unit = new Unit(id) {
-                                Team = team
+                                Team = team,
+                                Health = startHealth,
                         };
 
                         var view = Model.InstantiateUnit(position);
@@ -18,7 +20,10 @@ namespace Arena {
                         return unit;
                 }
 
+                HashSet<Identity<Unit>> _tmpDieUnits = new HashSet<Identity<Unit>>();
                 void UpdateUnits(float dt) {
+                        _tmpDieUnits.Clear();
+
                         foreach (var unit in Stage.Units.Values) {
                                 UpdateUnitInteract(unit);
                                 ApplyUnitMovementInput(dt, unit);
@@ -27,6 +32,20 @@ namespace Arena {
                                 InvalidateUnitWeapon(unit, unit.Input.PickRight, ref unit.RightHand);
                                 ApplyUnitFireInput(unit, unit.Input.FireLeft, unit.LeftHand);
                                 ApplyUnitFireInput(unit, unit.Input.FireRight, unit.RightHand);
+                                ApplyDamage(unit);
+
+                                UpdateUnitView(unit);
+
+                                if (!unit.IsAlive) {
+                                        _tmpDieUnits.Add(unit.Id);
+                                }
+                        }
+
+                        foreach (var id in _tmpDieUnits) {
+                                if (Stage.Units.TryGetValue(id, out var unit)) {
+                                        Stage.Units.Remove(id);
+                                        GameObject.Destroy(unit.View.gameObject);
+                                }
                         }
                 }
 
@@ -175,6 +194,23 @@ namespace Arena {
                                         }
                                 }
                         }
+                }
+
+                void ApplyDamage(Unit unit) {
+                        foreach (var damage in unit.IncomingDamages) {
+                                unit.Health -= damage.Damage;
+                        }
+                        unit.IncomingDamages.Clear();
+                }
+
+                void UpdateUnitView(Unit unit) {
+                        if (unit.Id == _playerId) {
+                                unit.View.InfoRoot.gameObject.SetActive(false);
+                                return;
+                        }
+                        
+                        unit.View.InfoRoot.gameObject.SetActive(true);
+                        unit.View.UpdateInfo(unit);
                 }
         }       
 }

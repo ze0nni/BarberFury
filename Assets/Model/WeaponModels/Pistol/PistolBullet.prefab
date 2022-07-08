@@ -46,8 +46,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Radius: 0.05
   LifeTime: 3
-  Speed: 100
+  Speed: 50
   Gravity: {x: 0, y: 0, z: 0}
+  Damage: 20
+  Effect: 0
+  EffectValue: 0
 --- !u!1 &6686491351424004668
 GameObject:
   m_ObjectHideFlags: 0

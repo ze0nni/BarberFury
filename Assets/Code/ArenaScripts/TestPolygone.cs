@@ -13,7 +13,7 @@ namespace ArenaScripts {
                         _mediator = mediator;
 
                         var playerSpawn = mediator.SelectSpawnPoint(p => p.TeamId == TeamId.Team1);
-                        var player = mediator.SpawnUnit(TeamId.Team1, playerSpawn.Position);
+                        var player = mediator.SpawnUnit(TeamId.Team1, playerSpawn.Position, playerSpawn.StartHealth);
                         mediator.SetPlayer(player.Id);
 
                         ResetTeam2();
@@ -32,11 +32,10 @@ namespace ArenaScripts {
                                 _team2.TryGetValue(p.Id, out var unitId);
 
                                 if (_mediator.Stage.Units.TryGetValue(unitId, out var unit) && unit.IsAlive) {
-                                        unit.Health = 1000;
+                                        unit.Health = p.StartHealth;
                                 } else {
-                                        var newUnit = _mediator.SpawnUnit(TeamId.Team2, p.Position);
-                                        newUnit.Health = 1000;
-
+                                        var newUnit = _mediator.SpawnUnit(TeamId.Team2, p.Position, p.StartHealth);
+                                        
                                         _team2[p.Id] = newUnit.Id;
                                 }
                         }

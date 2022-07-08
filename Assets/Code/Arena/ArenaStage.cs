@@ -23,11 +23,13 @@ namespace Arena {
                 public readonly Identity<SpawnPoint> Id;
                 public readonly Vector3 Position;
                 public readonly TeamId TeamId;
+                public readonly float StartHealth;
 
-                public SpawnPoint(Identity<SpawnPoint> id, Vector3 position, TeamId teamId) {
+                public SpawnPoint(Identity<SpawnPoint> id, Vector3 position, TeamId teamId, float startHealth) {
                         Id = id;
                         Position = position;
                         TeamId = teamId;
+                        StartHealth = startHealth;
                 }
         }
 
@@ -60,6 +62,8 @@ namespace Arena {
                 public CrosshairTarget CrosshairTarget;
                 public Identity<Weapon> LeftHand;
                 public Identity<Weapon> RightHand;
+
+                public readonly List<IncomingDamage> IncomingDamages = new List<IncomingDamage>();
 
                 public UnitView View;
                 public Unit(Identity<Unit> id) {
@@ -101,6 +105,20 @@ namespace Arena {
                 public Identity<Unit> UnitId;
         }
 
+        public struct IncomingDamage {
+                public Identity<Unit> UnitId;
+                public float Damage;
+                public DamageEffect Effect;
+                public float EffectValue;
+
+        }
+
+        public enum DamageEffect {
+                Dot,
+                Fire,
+                Water
+        }
+
         public class Weapon {
                 public readonly Identity<Weapon> Id;
                 public Vector3 Position {
@@ -125,8 +143,7 @@ namespace Arena {
 
         public class Projectile {
                 public readonly Identity<Projectile> Id;
-                public Identity<Unit> UnitId;
-                public Identity<Weapon> WeaponId;
+                public readonly Identity<Unit> UnitId;
 
                 public Vector3 Position {
                         get => View.transform.position;
@@ -143,10 +160,22 @@ namespace Arena {
                 public Vector3 Velocity0;
                 public float SpawnTime;
 
+                public ProjectileTarget Target;
+
                 public ProjectileView View;
 
-                public Projectile(Identity<Projectile> id) {
+                public Projectile(Identity<Projectile> id, Identity<Unit> unitId) {
                         Id = id;
+                        UnitId = unitId;
                 }
+        }
+
+        public struct ProjectileTarget {
+                public enum Target { None, Static, Unit }
+                public Target Type;
+                public Vector3 Point;
+                public float Distance;
+                
+                public Identity<Unit> UnitId;
         }
 }

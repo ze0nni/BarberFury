@@ -1,3 +1,4 @@
+using Arena;
 using UnityEngine;
 
 namespace Model {
@@ -6,6 +7,10 @@ namespace Model {
                 public float LifeTime = 3;
                 public float Speed = 10;
                 public Vector3 Gravity;
+
+                public float Damage;
+                public DamageEffect Effect;
+                public float EffectValue;
 
                 void OnDrawGizmos() {
                         Gizmos.DrawWireSphere(transform.position, Radius);

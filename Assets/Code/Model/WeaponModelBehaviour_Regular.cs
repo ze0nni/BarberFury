@@ -40,7 +40,8 @@ namespace Model {
                                         ProjectileRoot.transform.position,
                                         rotation * Quaternion.EulerAngles(sprayX * Mathf.PI / 180f, sprayY* Mathf.PI / 180f, 0),
                                         timeOffsetStep * i,
-                                        Projectile);
+                                        Projectile,
+                                        weapon.Picker);
                         }
                 }
         }

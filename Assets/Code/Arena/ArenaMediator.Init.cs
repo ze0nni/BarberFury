@@ -7,7 +7,7 @@ namespace Arena
                 void Init() {
                         foreach (var spawnPoint in GameObject.FindObjectsOfType<SpawnPointComponent>()) {
                                 var id = NewIdentity<SpawnPoint>();
-                                Stage.SpawnPoints.Add(id, new SpawnPoint(id, spawnPoint.transform.position, spawnPoint.TeamId));
+                                Stage.SpawnPoints.Add(id, new SpawnPoint(id, spawnPoint.transform.position, spawnPoint.TeamId, spawnPoint.StartHealth));
                         }
 
                         foreach (var weapon in GameObject.FindObjectsOfType<WeaponComponent>()) {
