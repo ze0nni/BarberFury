@@ -58,6 +58,10 @@ namespace Arena {
 
                 public float Health;
                 public bool IsAlive => Health > 0;
+                public float WetEffect = 0;
+                public float BurnEffect = 0;
+                public float DamageModfWet = -10f;
+                public float DamageModfBurn = 10f;
 
                 public CrosshairTarget CrosshairTarget;
                 public Identity<Weapon> LeftHand;

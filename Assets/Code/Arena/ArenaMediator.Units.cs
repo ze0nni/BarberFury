@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Common;
 using UnityEngine;
@@ -33,6 +34,7 @@ namespace Arena {
                                 ApplyUnitFireInput(unit, unit.Input.FireLeft, unit.LeftHand);
                                 ApplyUnitFireInput(unit, unit.Input.FireRight, unit.RightHand);
                                 ApplyDamage(unit);
+                                UpdateUnitEffects(dt, unit);
 
                                 UpdateUnitView(unit);
 
@@ -198,7 +200,39 @@ namespace Arena {
 
                 void ApplyDamage(Unit unit) {
                         foreach (var damage in unit.IncomingDamages) {
-                                unit.Health -= damage.Damage;
+                                switch (damage.Effect) {
+                                        case DamageEffect.Dot: {
+                                                var modf = 0f;
+                                                if (unit.WetEffect > 0) {
+                                                        modf += unit.DamageModfWet;
+                                                }
+                                                if (unit.BurnEffect > 0) {
+                                                        modf += unit.DamageModfBurn;
+                                                }
+                                                unit.Health -= Mathf.Max(0, damage.Damage + modf);
+                                                break;
+                                        }
+                                        case DamageEffect.Fire: {
+                                                if (unit.WetEffect > 0) {
+                                                        unit.WetEffect -= damage.EffectValue / 10;
+                                                } else {
+                                                        unit.Health -= (damage.Damage);
+                                                        unit.BurnEffect = Mathf.Min(100, unit.BurnEffect + damage.EffectValue);
+                                                }
+                                                break;
+                                        }
+                                        case DamageEffect.Water: {
+                                                if (unit.BurnEffect > 0) {
+                                                        unit.BurnEffect -= damage.EffectValue / 10;
+                                                } else {
+                                                        unit.WetEffect = Mathf.Min(100, unit.WetEffect + damage.EffectValue);
+                                                }
+                                                break;
+                                        }
+                                        default: {
+                                                throw new System.ArgumentException(damage.Effect.ToString());
+                                        }
+                                }
                         }
                         unit.IncomingDamages.Clear();
                 }
@@ -211,6 +245,16 @@ namespace Arena {
                         
                         unit.View.InfoRoot.gameObject.SetActive(true);
                         unit.View.UpdateInfo(unit);
+                }
+
+                void UpdateUnitEffects(float dt, Unit unit) {
+                        if (unit.WetEffect > 0) {
+                                unit.WetEffect = Mathf.Max(0, unit.WetEffect - 10f * dt);
+                        }
+                        if (unit.BurnEffect > 0) {
+                                unit.BurnEffect = Mathf.Max(0, unit.BurnEffect - 10f * dt);
+                                unit.Health -= dt;
+                        }
                 }
         }       
 }

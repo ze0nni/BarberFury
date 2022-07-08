@@ -313,12 +313,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Controller: {fileID: 7494043662350040948}
   Collider: {fileID: 361380719858607363}
+  MeshRenderer: {fileID: 5275586377545076568}
   InfoRoot: {fileID: 6404176514079204951}
   _healthText: {fileID: 2784194467092582805}
   _effectIcon: {fileID: 4033574012296027216}
   _effectStatus: {fileID: 346582940711274069}
   _effectIconWet: {fileID: 21300000, guid: 57ab404d22a3aec4499abb1a3d34a6df, type: 3}
-  _eEffectIconBurn: {fileID: 21300000, guid: 0a7dc73d9c8875445a46759ca64e5182, type: 3}
+  _effectIconBurn: {fileID: 21300000, guid: 0a7dc73d9c8875445a46759ca64e5182, type: 3}
 --- !u!1 &6404176514079204951
 GameObject:
   m_ObjectHideFlags: 0

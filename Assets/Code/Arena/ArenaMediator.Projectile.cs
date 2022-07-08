@@ -114,7 +114,9 @@ namespace Arena {
                                                 var damage = p.View.Model.Damage;
                                                 unit.IncomingDamages.Add(new IncomingDamage {
                                                         UnitId = p.UnitId,
-                                                        Damage = damage
+                                                        Damage = damage,
+                                                        Effect = p.View.Model.Effect,
+                                                        EffectValue = p.View.Model.EffectValue,
                                                 });
                                         }
                                         break;

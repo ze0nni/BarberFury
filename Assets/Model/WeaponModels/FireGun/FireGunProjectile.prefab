@@ -49,6 +49,9 @@ MonoBehaviour:
   LifeTime: 3
   Speed: 8
   Gravity: {x: 0, y: 2, z: 0}
+  Damage: 1
+  Effect: 1
+  EffectValue: 5
 --- !u!114 &5961839104800690271
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -48,6 +48,9 @@ MonoBehaviour:
   LifeTime: 2
   Speed: 25
   Gravity: {x: 0, y: -9, z: 0}
+  Damage: 0
+  Effect: 2
+  EffectValue: 100
 --- !u!1001 &7719211883633489529
 PrefabInstance:
   m_ObjectHideFlags: 0
