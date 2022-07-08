@@ -21,7 +21,9 @@ namespace ArenaScripts {
 
                 public void Update(float dt)
                 {
-                        
+                       if (_mediator.TryGetPlayer(out var player) && player.Input.Reset) {
+                                ResetTeam2();
+                       }
                 }
 
                 void ResetTeam2() {

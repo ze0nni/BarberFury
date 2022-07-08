@@ -14,6 +14,8 @@ namespace Arena
                 
                 Identity<Unit> _playerId;
 
+                public bool TryGetPlayer(out Unit player) => Stage.Units.TryGetValue(_playerId, out player);
+
                 public ArenaMediator(Camera camera, ModelComponent model, IArenaScript script) {
                         _camera = camera;
                         _script = script;

@@ -25,6 +25,7 @@ namespace Arena
                                 PickLeft = Input.GetKeyDown(KeyCode.Q),
                                 FireLeft = Input.GetMouseButton(0),
                                 FireRight = Input.GetMouseButton(1),
+                                Reset = Input.GetKeyDown(KeyCode.R)
                         };
                 }
 

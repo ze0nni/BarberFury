@@ -92,6 +92,8 @@ namespace Arena {
                 public bool PickRight;
                 public bool FireLeft;
                 public bool FireRight;
+
+                public bool Reset;
         }
 
         public struct UnitInteract {
