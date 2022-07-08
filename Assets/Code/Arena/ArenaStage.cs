@@ -6,10 +6,12 @@ using UnityEngine;
 namespace Arena {
         public sealed class ArenaStage {                
                 public int IdentityCounter;
+                public float Time;
                 public readonly System.Random Random = new System.Random();
                 public readonly Dictionary<Identity<SpawnPoint>, SpawnPoint> SpawnPoints = new Dictionary<Identity<SpawnPoint>, SpawnPoint>();
                 public readonly Dictionary<Identity<Unit>, Unit> Units = new Dictionary<Identity<Unit>, Unit>();
                 public readonly Dictionary<Identity<Weapon>, Weapon> Weapons = new Dictionary<Identity<Weapon>, Weapon>();
+                public readonly Dictionary<Identity<Projectile>, Projectile> Projectiles = new Dictionary<Identity<Projectile>, Projectile>();
         }
 
         public enum TeamId {
@@ -113,7 +115,7 @@ namespace Arena {
 
                 public Identity<Unit> Picker;
                 public bool InputFire;
-
+                public float LastFireTime;
                 public WeaponView View;
 
                 public Weapon(Identity<Weapon> id) {
@@ -123,6 +125,28 @@ namespace Arena {
 
         public class Projectile {
                 public readonly Identity<Projectile> Id;
-                public readonly Identity<Weapon> WeaponId;
+                public Identity<Unit> UnitId;
+                public Identity<Weapon> WeaponId;
+
+                public Vector3 Position {
+                        get => View.transform.position;
+                        set => View.transform.position = value;
+                }
+                public Vector3 Position0;
+
+                public Quaternion Rotation {
+                        get => View.transform.rotation;
+                        set => View.transform.rotation = value;
+                }
+
+                public Vector3 Velocity;
+                public Vector3 Velocity0;
+                public float SpawnTime;
+
+                public ProjectileView View;
+
+                public Projectile(Identity<Projectile> id) {
+                        Id = id;
+                }
         }
 }

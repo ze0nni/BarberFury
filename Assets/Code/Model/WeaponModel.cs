@@ -2,15 +2,11 @@ using Arena;
 using UnityEngine;
 
 namespace Model {        
-        public class WeaponModel : MonoBehaviour {
-                public Transform Emitter;
+        public class WeaponModel : MonoBehaviour {                
+                [SerializeField] private WeaponModelBehaviour _behaviour;
 
-                public void Fire(ArenaMediator mediator) {
-
-                }
-
-                public void Update(ArenaMediator mediator) {
-                        
+                public void Update(float dt, ArenaMediator mediator, Weapon weapon) {
+                        _behaviour.Update(dt, mediator, weapon);
                 }
         }
 }

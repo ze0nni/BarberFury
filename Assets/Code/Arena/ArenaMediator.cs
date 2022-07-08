@@ -28,9 +28,12 @@ namespace Arena
                 }
 
                 public void Update(float dt) {
+                        Stage.Time += dt;
+                        
                         UpdatePlayerInput();   
                         UpdateUnits(dt);
                         UpdateWeapons(dt);
+                        UpdateProjectiles(dt);
 
                         _script.Update(dt);
                         

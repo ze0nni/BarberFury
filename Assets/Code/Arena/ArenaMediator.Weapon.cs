@@ -39,13 +39,8 @@ namespace Arena {
                                         weapon.Position = position;
                                         weapon.Rotation = rotation;
                                 }
-
-                                if (weapon.InputFire) {
-                                        weapon.InputFire = false;
-                                        weapon.View.Model.Fire(this);
-                                }
-
-                                weapon.View.Model.Update(this);
+                                
+                                weapon.View.Model.Update(dt, this, weapon);
                         }
                 }                
         }       

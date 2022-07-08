@@ -40,6 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1410327706981193184}
   - component: {fileID: 1521982723936429955}
+  - component: {fileID: 6433389333915078004}
   m_Layer: 0
   m_Name: FireGun
   m_TagString: Untagged
@@ -75,7 +76,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a91d755f03f994587de205953f9c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Emitter: {fileID: 6060595377423307614}
+  _behaviour: {fileID: 6433389333915078004}
+--- !u!114 &6433389333915078004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7854412430434782039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31d0c10eb10aeb94eafc9570e7d5d5c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ProjectileRoot: {fileID: 6060595377423307614}
+  Projectile: {fileID: 7091153275402036922, guid: ecf92b6e27905c747b19a3dca87340c0, type: 3}
+  Automatic: 1
+  FireRate: 0
+  SprayCone: 25
 --- !u!1001 &1984095508387416896
 PrefabInstance:
   m_ObjectHideFlags: 0
